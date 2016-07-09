@@ -1,0 +1,27 @@
+<HTML>
+<head>
+	<script type="text/javascript" src="main.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+	<script type="text/javascript" src="metro.js"></script>
+	<link href="metro.css" rel="stylesheet" type="text/css" />
+	<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	<div id="menu">
+		<button onclick="newPrototype('1');">item</button>
+		<button onclick="localStorage.mod = JSON.stringify(prototypes);">save</button>
+		<button onclick="prototypes = JSON.parse(localStorage.mod);">load</button>
+		<button onclick="exportMod();">export</button>
+	</div>
+	<div id="window">
+
+	</div>
+	<!-- Popup should be hidden when not in use -->
+	<div id="popup" style="display:none;">
+
+	</div>
+	<div id="result">
+
+	</div>
+</body>

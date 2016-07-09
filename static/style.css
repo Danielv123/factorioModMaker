@@ -1,0 +1,85 @@
+* {
+	margin: 0px;
+}
+
+#result {
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	height: 30px;
+	border-top: 1px solid darkgrey;
+	background-color: white;
+}
+
+#window {
+	padding-bottom: 0px;
+	margin-left:20px;
+}
+
+#popup {
+	position:fixed;
+	top:50px;
+	left:50px;
+	right:50px;
+	bottom:50px;
+	border: 1px solid darkgrey;
+}
+
+.prototype {
+	border-top: 2px solid black;
+	overflow:hidden;
+	/*transition:height 200ms;*/
+}
+
+.index {
+	display:inline;
+}
+
+.expander {
+	width:15px;
+	height:100%;
+	background-color: black;
+	position:absolute;
+	left:0px;
+	cursor: pointer;
+	/*transition:height 200ms;*/
+}
+
+.input-control {
+    display: inline-block;
+    min-height: 1rem;
+    height: 1.812rem;
+    position: relative;
+    vertical-align: middle;
+    margin: 3px 0;
+    line-height: 1;
+}
+
+.input-control.text,
+.input-control.select,
+.input-control.file,
+.input-control.password,
+.input-control.number,
+.input-control.email,
+.input-control.tel {
+  width: 20rem;
+}
+
+.input-control.text .prepend-icon,
+.input-control.select .prepend-icon,
+.input-control.file .prepend-icon,
+.input-control.password .prepend-icon,
+.input-control.number .prepend-icon,
+.input-control.email .prepend-icon,
+.input-control.tel .prepend-icon {
+  width: 16px;
+  height: 16px;
+  font-size: 24px;
+  line-height: 1;
+  position: absolute;
+  top: 50%;
+  margin-top: -12px;
+  left: 4px;
+  z-index: 2;
+  color: #999999;
+}
