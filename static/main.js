@@ -29,6 +29,18 @@ function modInfo() {
 	}
 }
 
+// for use by newPrototype()
+// parameter is HTML dom element clicked on (the bar one the side of items)
+function onclickstring(parameter) {
+	if(parameter.parentElement.style.height == '40px'){
+		parameter.parentElement.style.height = 35 * parameter.parentElement.querySelectorAll('input').length;
+		parameter.style.height = parameter.parentElement.offsetHeight - 2
+	} else {
+		parameter.parentElement.style.height = '40px';
+		parameter.style.height = parameter.parentElement.offsetHeight - 2
+	}
+}
+
 function newPrototype(id) {
 	for(k = 0; k < prototypes.length;k++) {
 		// console.log(k)
@@ -54,7 +66,8 @@ function newPrototype(id) {
 			// Create DOM element
 			temp = document.createElement('div');
 			// Add our string HTML to the in-memory DOM element
-			temp.innerHTML = "<div class='prototype' id='" + randomID + "'><div class='expander' onclick='if(this.parentElement.style.height == \"40px\"){this.parentElement.style.height = 35 * this.parentElement.querySelectorAll('input').length; this.style.height = this.parentElement.offsetHeight - 2}else{this.parentElement.style.height = \"40px\"; this.style.height = this.parentElement.offsetHeight - 2}'></div>" + result + "</div>";
+			
+			temp.innerHTML = "<div class='prototype' id='" + randomID + "'><div class='expander' onclick='onclickstring(this)'></div>" + result + "</div>";
 			// console.log(temp); // logging doesen't releal much
 			// Append the DOM element
 			document.getElementById('window').appendChild(temp);
