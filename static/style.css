@@ -2,6 +2,7 @@
 	margin: 0px;
 }
 
+
 #result {
 	position: fixed;
 	bottom: 0px;
@@ -51,7 +52,7 @@
     height: 1.812rem;
     position: relative;
     vertical-align: middle;
-    margin: 3px 0;
+    margin: 0px 0;
     line-height: 1;
 }
 
