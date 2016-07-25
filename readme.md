@@ -9,6 +9,7 @@ git
 #Development setup:
 git clone
 > npm install --dev
+
 > npm test
 
 Most changes should be in nodeServer.js and /static/
@@ -18,4 +19,4 @@ Most changes should be in nodeServer.js and /static/
 git clone
 > npm install
 
-> npm start
+> sudo npm start
