@@ -31,20 +31,18 @@ app.post("/js2lua", function(req, res) {
 	zipped.author = 'Danielv123';
 	zipped.description = 'Adds cows to game.';
 	console.log(req.body)
-	// Create mod in folder
-	mkdirp(req.body.info.name + "_" + req.body.info.version, function() {
-		fs.writeFileSync(req.body.info.name + "_" + req.body.info.version + "/info.json", JSON.stringify(req.body.info));
-		fs.writeFileSync(req.body.info.name + "_" + req.body.info.version + "/data.lua", "data:extend(" + js2lua.convert(req.body.data) + ")");
 
-		// Zip it up!
-		var zip5 = new EasyZip();
-		zip5.zipFolder(req.body.info.name + "_" + req.body.info.version,function(){
-			zip5.writeToFile('static/' + req.body.info.name + "_" + req.body.info.version + '.zip');
-		});
-		
-		// Attempt sending the file back to client
-		res.send(req.body.info.name + "_" + req.body.info.version + ".zip");
-	});
+	// Zip it up!
+	var zip = new EasyZip();
+	zip.file(req.body.info.name + "_" + req.body.info.version + "/info.json", JSON.stringify(req.body.info));
+	zip.file(req.body.info.name + "_" + req.body.info.version + "/data.lua", "data:extend(" + js2lua.convert(req.body.data) + ")");
+
+	//zip.zipFolder(req.body.info.name + "_" + req.body.info.version,function(){
+	zip.writeToFile('static/' + req.body.info.name + "_" + req.body.info.version + '.zip');
+	//});
+	
+	// Attempt sending the file back to client
+	res.send(req.body.info.name + "_" + req.body.info.version + ".zip");
 });
 
 var server = app.listen(8080, function () {

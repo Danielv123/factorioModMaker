@@ -12,6 +12,7 @@ if (window.XMLHttpRequest) {
 	xhttp = new ActiveXObject("Microsoft.XMLHTTP");
 }
 
+// function to check if string is stringified JSON
 function isJSON(str) {
     try {
         JSON.parse(str);
@@ -26,16 +27,20 @@ function modInfo() {
 	temp = document.getElementById('popup');
 	temp.innerHTML =
 	'<h1>Info.json</h1>' +
-	'<div class="input-control text"><input type="text" value="' + info.name + '" placeholder="Technical modname"></div><br>' +
-	'<div class="input-control text"><input type="text" value="' + info.version + '" placeholder="Semantic version"></div><br>' +
-	'<div class="input-control text"><input type="text" value="' + info.title + '" placeholder="Graphical name of mod"></div><br>' +
-	'<div class="input-control text"><input type="text" value="' + info.author + '" placeholder="Mod author"></div><br>' +
-	'<div class="input-control text"><input type="text" value="' + info.description + '" placeholder="Description"></div><br>'
+	'<div class="input-control text"><input type="text" oninput="saveInfo(this)" class="name" value="' + info.name + '" placeholder="Technical modname"></div><br>' +
+	'<div class="input-control text"><input type="text" oninput="saveInfo(this)" class="version" value="' + info.version + '" placeholder="Semantic version"></div><br>' +
+	'<div class="input-control text"><input type="text" oninput="saveInfo(this)" class="title" value="' + info.title + '" placeholder="Graphical name of mod"></div><br>' +
+	'<div class="input-control text"><input type="text" oninput="saveInfo(this)" class="author" value="' + info.author + '" placeholder="Mod author"></div><br>' +
+	'<div class="input-control text"><input type="text" oninput="saveInfo(this)" class="description" value="' + info.description + '" placeholder="Description"></div><br>'
 	if(temp.style.display == 'none') {
 		temp.style.display = 'block';
 	} else {
 		temp.style.display = 'none';
 	}
+}
+// used by modinfo only
+function saveInfo(tosave) {
+	info[tosave.className] = tosave.value;
 }
 
 // for use by newPrototype()
@@ -92,6 +97,8 @@ function load() {
 	// load it from localStorage
 	prototypes = {};
 	prototypes = JSON.parse(localStorage.mod);
+	info = {};
+	info = JSON.parse(localStorage.info);
 	
 	// loop through all properties and draw to screen
 	// k should start checking at a higher number than the last ID of the presets
@@ -127,7 +134,6 @@ function load() {
 		}
 	}
 }
-
 // not related to the "save" button on the site
 // this function is ran on property input field.change
 function save(protoTwo) {
@@ -143,7 +149,7 @@ function save(protoTwo) {
 	// Loop through prototypes checking for protos exclusive ID
 	var found = 0;
 	for(l = 0; l < prototypes.length; l++) {
-		if(prototypes[l]) {
+		if(prototypes[l]) { // only trigger if array position corresponds to a prototype
 			if(l == proto.id) { // loop until you are at the right prototype
 				console.log('I found my brother!');
 				found = l; // tell us when you finally found it
@@ -155,15 +161,10 @@ function save(protoTwo) {
 	}
 	// console.log(proto.id);
 }
-
-
 // this is where the magic happens
 function exportMod() {
 	// This is where all the prototypes are saved to
-	modExport = {
-		data:[],
-	};
-	
+	modExport = {data:[],};
 	// Loop through all HTML prototypes
 	exportPrototypes = document.getElementsByClassName("prototype");
 	for (i = 0;exportPrototypes.length > i; i++) {
