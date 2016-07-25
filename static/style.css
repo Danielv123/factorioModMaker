@@ -2,7 +2,9 @@
 	margin: 0px;
 }
 
-
+#popup {
+	background-color:#FAFAFA;
+}
 #result {
 	position: fixed;
 	bottom: 0px;
