@@ -6,10 +6,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
 // Browser compat for ajax requests
 var xhttp;
 if (window.XMLHttpRequest) {
-    xhttp = new XMLHttpRequest();
-    } else {
-    // code for IE6, IE5
-    xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	xhttp = new XMLHttpRequest();
+	} else {
+	// code for IE6, IE5
+	xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+}
+
+function isJSON(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
 }
 
 function modInfo() {
@@ -30,33 +39,75 @@ function modInfo() {
 }
 
 // for use by newPrototype()
-// parameter is HTML dom element clicked on (the bar one the side of items)
+// parameter is HTML dom element clicked on (the bar on the side of items)
 function onclickstring(parameter) {
-	if(parameter.parentElement.style.height == '40px'){
-		parameter.parentElement.style.height = 35 * parameter.parentElement.querySelectorAll('input').length;
-		parameter.style.height = parameter.parentElement.offsetHeight - 2
+	// console.log(parameter);
+	minProtoHeight = 34;
+	if(parameter.parentElement.style.height == minProtoHeight + "px"){
+		parameter.parentElement.style.height = (29 * parameter.parentElement.getElementsByTagName('div').length -29)/2 + "px";
+		parameter.style.height = ((29 * parameter.parentElement.getElementsByTagName('div').length -29)/2)-2 + "px"
 	} else {
-		parameter.parentElement.style.height = '40px';
-		parameter.style.height = parameter.parentElement.offsetHeight - 2
+		parameter.parentElement.style.height = minProtoHeight + "px";
+		parameter.style.height = minProtoHeight - 2 + "px";
 	}
 }
 
 function newPrototype(id) {
-	for(k = 0; k < prototypes.length;k++) {
+	k = id;
+	var result = "";
+	temp = prototypes[k].constructor.keys(prototypes[k]);
+	var randomID = Math.round(Math.random() * 10000);
+	for (o = 0; o < temp.length;o++) {
+		temp = prototypes[k].constructor.keys(prototypes[k]);
+		if(typeof prototypes[k][temp[o]] == 'object') {
+			console.log('Property of prototype is an object');
+			tempTwo = JSON.stringify(prototypes[k][temp[o]]);
+		} else {
+			tempTwo = prototypes[k][temp[o]];
+		}
+		console.log(tempTwo);
+		if (!prototypes[randomID]) {
+			prototypes[randomID] = {};
+		}
+		prototypes[randomID][temp[o]] = tempTwo;
+		result = result + "<div><div class='property input-control text'><input type='text' class='value input-control text' value='" + tempTwo + "'" +
+		" oninput='save(this);'" +
+		"></input></div><p class='index'>" + temp[o] + "</p></div>";
+	}
+	// Add new HTML prototype
+	// Using standard DOM methods instead of the hacky innerHTML = innerHTML + string
+	// to avoid resetting the input fields when new prototypes are added.
+	// Create DOM element
+	temp = document.createElement('div');
+	// Add our string HTML to the in-memory DOM element
+	temp.innerHTML = "<div class='prototype' id='" + randomID + "'><div class='expander' onclick='onclickstring(this)'></div>" + result + "</div>";
+	// Append the DOM element
+	document.getElementById('window').appendChild(temp);
+	// Reset temp variable
+	temp = null;
+}
+
+// function to load mod from localstorage, save it in variable "prototypes" and draw it on the screen
+function load() {
+	// load it from localStorage
+	prototypes = {};
+	prototypes = JSON.parse(localStorage.mod);
+	
+	// loop through all properties and draw to screen
+	// k should start checking at a higher number than the last ID of the presets
+	// to avoid involuntary creation of invalid prototypes
+	for(k = 5; k < prototypes.length;k++) {
 		// console.log(k)
-		if (k == id) {
+		if (prototypes[k]) {
+			// console.log(prototypes[k].constructor.keys(prototypes[k]))
+			console.log("loaded: " + k)
 			var result = "";
 			temp = prototypes[k].constructor.keys(prototypes[k]);
-			var randomID = Math.round(Math.random() * 10000);
 			for (o = 0; o < temp.length;o++) {
 				temp = prototypes[k].constructor.keys(prototypes[k]);
-				result = result + "<div class='property input-control text'><input type='text' class='value input-control text' value='" + prototypes[k][temp[o]] + "'" +
-				" oninput='save(this.parentElement.parentElement, this.parentElement.getElementsByClassName(\"index\")[0].innerHTML, this.value)'" +
-				"></input></div><p class='index'>" + temp[o] + "</p><br>";
-				if (!prototypes[randomID]) {
-					prototypes[randomID] = {};
-				}
-				prototypes[randomID][temp[o]] = prototypes[k][temp[o]];
+				result = result + "<div><div class='property input-control text'><input type='text' class='value input-control text' value='" + prototypes[k][temp[o]] + "'" +
+				" oninput='save(this);'" +
+				"></input></div><p class='index'>" + temp[o] + "</p></div>";
 			}
 
 			// Add new HTML prototype
@@ -67,7 +118,7 @@ function newPrototype(id) {
 			temp = document.createElement('div');
 			// Add our string HTML to the in-memory DOM element
 			
-			temp.innerHTML = "<div class='prototype' id='" + randomID + "'><div class='expander' onclick='onclickstring(this)'></div>" + result + "</div>";
+			temp.innerHTML = "<div class='prototype' id='" + k + "'><div class='expander' onclick='onclickstring(this)'></div>" + result + "</div>";
 			// console.log(temp); // logging doesen't releal much
 			// Append the DOM element
 			document.getElementById('window').appendChild(temp);
@@ -77,51 +128,61 @@ function newPrototype(id) {
 	}
 }
 
+// not related to the "save" button on the site
 // this function is ran on property input field.change
-function save(proto, index, value) {
-	// proto is a reference to HTML prototype
+function save(protoTwo) {
+	// protoTwo is a reference to HTML prototype
 	// index = string, name of JS object properto to change
 	// value = string or int, value to change
-	console.log('Saving ' + index + ': ' + value);
+	console.log(protoTwo)
+	proto = protoTwo.parentElement.parentElement.parentElement;
+	index = protoTwo.parentElement.parentElement.getElementsByClassName("index")[0].innerHTML;
+	value = protoTwo.value;
+	
+	console.log('Saving ' + index + ': ' + value + " - " + proto.id);
 	// Loop through prototypes checking for protos exclusive ID
 	var found = 0;
 	for(l = 0; l < prototypes.length; l++) {
 		if(prototypes[l]) {
-			if(prototypes[l].id == proto.id) {
+			if(l == proto.id) { // loop until you are at the right prototype
 				console.log('I found my brother!');
-				found = l;
-			} else {
+				found = l; // tell us when you finally found it
+				prototypes[l][index] = value;
+			} else { // if you hit a prototype and its the wrong one log that
 				console.log('no match');
 			}
 		}
 	}
 	// console.log(proto.id);
-	if (!prototypes[proto.id]) {
-		prototypes[proto.id] = {};
-	}
-	prototypes[proto.id][index] = value;
 }
 
 
 // this is where the magic happens
 function exportMod() {
 	// This is where all the prototypes are saved to
-	modExport = [];
-
+	modExport = {
+		data:[],
+	};
+	
 	// Loop through all HTML prototypes
 	exportPrototypes = document.getElementsByClassName("prototype");
 	for (i = 0;exportPrototypes.length > i; i++) {
 		// save each prototype as modExport and then ship them to the server for conversion
 		exportProperties = exportPrototypes[i].getElementsByClassName("property");
-		modExport[i] = {};
-
+		modExport.data[i] = {};
+		
 		// Loop through the properties of every HTML prototype
 		for (p=0;exportProperties.length > p; p++) {
-			console.log(exportProperties[p].getElementsByClassName("index")[0].innerHTML);
-			modExport[i][exportProperties[p].getElementsByClassName("index")[0].innerHTML] = exportProperties[p].getElementsByClassName("value")[0].value;
+			console.log(exportProperties[p].parentElement.getElementsByClassName("index")[0].innerHTML);
+			if(isJSON(exportProperties[p].getElementsByClassName("value")[0].value)) {
+				modExport.data[i][exportProperties[p].parentElement.getElementsByClassName("index")[0].innerHTML] = JSON.parse(exportProperties[p].getElementsByClassName("value")[0].value);
+			} else {
+				modExport.data[i][exportProperties[p].parentElement.getElementsByClassName("index")[0].innerHTML] = exportProperties[p].getElementsByClassName("value")[0].value;
+			}
 		}
+		modExport.info = info;
 	}
-
+	
 	// Ask server to convert JS to lua
 	xhttp.open("POST", "/js2lua", true);
 	xhttp.setRequestHeader("Content-type", "application/json; charset=utf-8");
@@ -136,20 +197,39 @@ function exportMod() {
 
 var prototypes = [];
 
-prototypes[1] = {
-    name : "raw-wood",
-	type : "item",
-    icon : "__base__/graphics/icons/raw-wood.png",
-    flags : '["goes-to-main-inventory"]',
-    fuel_value : "4MJ",
-    subgroup : "raw-material",
-    order : "a[raw-wood]",
-    stack_size : 100,
+prototypes[0] = {
+	name : "steel-processing",
+	type : "technology",
+	icon : "__base__/graphics/technology/steel-processing.png",
+	effects : [{type : "unlock-recipe",recipe : "steel-plate"}],
+	unit : {count : 50,ingredients : ["science-pack-1", 1],time : 5},
+	order : "c-a"
 }
+prototypes[1] = {
+	name : "raw-wood",
+	type : "item",
+	icon : "__base__/graphics/icons/raw-wood.png",
+	flags : '["goes-to-main-inventory"]',
+	fuel_value : "4MJ",
+	subgroup : "raw-material",
+	order : "a[raw-wood]",
+	stack_size : 100,
+}
+prototypes[2] = {
+	type : "recipe",
+	name : "express-transport-belt",
+	category : "crafting-with-fluid",
+	enabled : false,
+	ingredients : [["iron-gear-wheel", 5],["fast-transport-belt", 1],{type:"fluid", name:"lubricant", amount:2}],
+	result : "express-transport-belt",
+	requester_paste_multiplier : 4
+}
+
 
 var info = {
 	name: 'testMod',
 	version: '0.0.1',
+	factorio_version: '0.13',
 	title: 'Test mod',
 	author: 'Danielv123',
 	description: 'Test mod made with FMM',

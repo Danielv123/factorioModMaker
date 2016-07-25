@@ -17,4 +17,5 @@ Most changes should be in nodeServer.js and /static/
 #Installation
 git clone
 > npm install
+
 > npm start
