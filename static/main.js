@@ -12,6 +12,15 @@ if (window.XMLHttpRequest) {
 	xhttp = new ActiveXObject("Microsoft.XMLHTTP");
 }
 
+function isJSON(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
 function modInfo() {
 	// Create popup window that allows for changing info.json
 	temp = document.getElementById('popup');
@@ -30,7 +39,7 @@ function modInfo() {
 }
 
 // for use by newPrototype()
-// parameter is HTML dom element clicked on (the bar one the side of items)
+// parameter is HTML dom element clicked on (the bar on the side of items)
 function onclickstring(parameter) {
 	// console.log(parameter);
 	minProtoHeight = 34;
@@ -44,39 +53,38 @@ function onclickstring(parameter) {
 }
 
 function newPrototype(id) {
-	for(k = 0; k < prototypes.length;k++) {
-		// console.log(k)
-		if (k == id) {
-			var result = "";
-			temp = prototypes[k].constructor.keys(prototypes[k]);
-			var randomID = Math.round(Math.random() * 10000);
-			for (o = 0; o < temp.length;o++) {
-				temp = prototypes[k].constructor.keys(prototypes[k]);
-				result = result + "<div><div class='property input-control text'><input type='text' class='value input-control text' value='" + prototypes[k][temp[o]] + "'" +
-				" oninput='save(this);'" +
-				"></input></div><p class='index'>" + temp[o] + "</p></div>";
-				if (!prototypes[randomID]) {
-					prototypes[randomID] = {};
-				}
-				prototypes[randomID][temp[o]] = prototypes[k][temp[o]];
-			}
-
-			// Add new HTML prototype
-			// Using standard DOM methods instead of the hacky innerHTML = innerHTML + string
-			// to avoid resetting the input fields when new prototypes are added.
-
-			// Create DOM element
-			temp = document.createElement('div');
-			// Add our string HTML to the in-memory DOM element
-			
-			temp.innerHTML = "<div class='prototype' id='" + randomID + "'><div class='expander' onclick='onclickstring(this)'></div>" + result + "</div>";
-			// console.log(temp); // logging doesen't releal much
-			// Append the DOM element
-			document.getElementById('window').appendChild(temp);
-			// Reset temp variable
-			temp = null;
+	k = id;
+	var result = "";
+	temp = prototypes[k].constructor.keys(prototypes[k]);
+	var randomID = Math.round(Math.random() * 10000);
+	for (o = 0; o < temp.length;o++) {
+		temp = prototypes[k].constructor.keys(prototypes[k]);
+		if(typeof prototypes[k][temp[o]] == 'object') {
+			console.log('Property of prototype is an object');
+			tempTwo = JSON.stringify(prototypes[k][temp[o]]);
+		} else {
+			tempTwo = prototypes[k][temp[o]];
 		}
+		console.log(tempTwo);
+		if (!prototypes[randomID]) {
+			prototypes[randomID] = {};
+		}
+		prototypes[randomID][temp[o]] = tempTwo;
+		result = result + "<div><div class='property input-control text'><input type='text' class='value input-control text' value='" + tempTwo + "'" +
+		" oninput='save(this);'" +
+		"></input></div><p class='index'>" + temp[o] + "</p></div>";
 	}
+	// Add new HTML prototype
+	// Using standard DOM methods instead of the hacky innerHTML = innerHTML + string
+	// to avoid resetting the input fields when new prototypes are added.
+	// Create DOM element
+	temp = document.createElement('div');
+	// Add our string HTML to the in-memory DOM element
+	temp.innerHTML = "<div class='prototype' id='" + randomID + "'><div class='expander' onclick='onclickstring(this)'></div>" + result + "</div>";
+	// Append the DOM element
+	document.getElementById('window').appendChild(temp);
+	// Reset temp variable
+	temp = null;
 }
 
 // function to load mod from localstorage, save it in variable "prototypes" and draw it on the screen
@@ -166,7 +174,11 @@ function exportMod() {
 		// Loop through the properties of every HTML prototype
 		for (p=0;exportProperties.length > p; p++) {
 			console.log(exportProperties[p].parentElement.getElementsByClassName("index")[0].innerHTML);
-			modExport.data[i][exportProperties[p].parentElement.getElementsByClassName("index")[0].innerHTML] = exportProperties[p].getElementsByClassName("value")[0].value;
+			if(isJSON(exportProperties[p].getElementsByClassName("value")[0].value)) {
+				modExport.data[i][exportProperties[p].parentElement.getElementsByClassName("index")[0].innerHTML] = JSON.parse(exportProperties[p].getElementsByClassName("value")[0].value);
+			} else {
+				modExport.data[i][exportProperties[p].parentElement.getElementsByClassName("index")[0].innerHTML] = exportProperties[p].getElementsByClassName("value")[0].value;
+			}
 		}
 		modExport.info = info;
 	}
@@ -189,7 +201,7 @@ prototypes[0] = {
 	name : "steel-processing",
 	type : "technology",
 	icon : "__base__/graphics/technology/steel-processing.png",
-	effects : '{{type = "unlock-recipe",recipe = "steel-plate"}}',
+	effects : [{type : "unlock-recipe",recipe : "steel-plate"}],
 	unit : {count : 50,ingredients : ["science-pack-1", 1],time : 5},
 	order : "c-a"
 }
@@ -208,7 +220,7 @@ prototypes[2] = {
 	name : "express-transport-belt",
 	category : "crafting-with-fluid",
 	enabled : false,
-	ingredients : '{{"iron-gear-wheel", 5},{"fast-transport-belt", 1},{type="fluid", name="lubricant", amount=2},}',
+	ingredients : [["iron-gear-wheel", 5],["fast-transport-belt", 1],{type:"fluid", name:"lubricant", amount:2}],
 	result : "express-transport-belt",
 	requester_paste_multiplier : 4
 }
