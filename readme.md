@@ -10,13 +10,10 @@ git
 git clone
 > npm install --dev
 
-> npm test
+> sudo npm test
 
-When testing exporting of mods, do
-
-> sudo npm start
-
-instead as it won't work otherwise.
+Needs admin permissions to overwrite old versions of mods, great for
+testing but bad in production.
 
 Most changes should be in nodeServer.js and /static/
 *Do not* increment the version number in package.json when submitting pull requests.
@@ -25,4 +22,4 @@ Most changes should be in nodeServer.js and /static/
 git clone
 > npm install
 
-> sudo npm start
+> npm start
