@@ -217,8 +217,8 @@ prototypes[1] = {
 	stack_size : 100,
 }
 prototypes[2] = {
-	type : "recipe",
 	name : "express-transport-belt",
+	type : "recipe",
 	category : "crafting-with-fluid",
 	enabled : false,
 	ingredients : [["iron-gear-wheel", 5],["fast-transport-belt", 1],{type:"fluid", name:"lubricant", amount:2}],
