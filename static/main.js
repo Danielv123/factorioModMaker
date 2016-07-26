@@ -45,18 +45,37 @@ function saveInfo(tosave) {
 
 // for use by newPrototype()
 // parameter is HTML dom element clicked on (the bar on the side of items)
-function onclickstring(parameter) {
+function onclickstring(parameter, action) {
 	// console.log(parameter);
 	minProtoHeight = 34;
-	if(parameter.parentElement.style.height == minProtoHeight + "px"){
-		parameter.parentElement.style.height = (29 * parameter.parentElement.getElementsByTagName('div').length -29)/2 + "px";
-		parameter.style.height = ((29 * parameter.parentElement.getElementsByTagName('div').length -29)/2)-2 + "px"
-	} else {
+	if (!action){ // if not specified, default to toggle
+		if(parameter.parentElement.style.height == minProtoHeight + "px"){
+			parameter.parentElement.style.height = (29 * parameter.parentElement.getElementsByTagName('div').length -29)/2 + "px";
+			parameter.style.height = ((29 * parameter.parentElement.getElementsByTagName('div').length -29)/2)-2 + "px";
+		} else {
+			parameter.parentElement.style.height = minProtoHeight + "px";
+			parameter.style.height = minProtoHeight - 2 + "px";
+		}
+	} else if(action == 'minimize') { // Minimize only if asked to do so
 		parameter.parentElement.style.height = minProtoHeight + "px";
 		parameter.style.height = minProtoHeight - 2 + "px";
+	} else if(action == 'maximize') { // Maximize if asked to do so
+		parameter.parentElement.style.height = (29 * parameter.parentElement.getElementsByTagName('div').length -29)/2 + "px";
+		parameter.style.height = ((29 * parameter.parentElement.getElementsByTagName('div').length -29)/2)-2 + "px";
 	}
 }
-
+function minimizePrototypes(action) {
+	temp = document.getElementsByClassName('expander');
+	if(action){
+		for(u = 0; u < temp.length; u++) {
+			onclickstring(temp[u], action);
+		}
+	} else {
+		for(u = 0; u < temp.length; u++) {
+			onclickstring(temp[u], action);
+		}
+	}
+}
 function newPrototype(id) {
 	k = id;
 	var result = "";
