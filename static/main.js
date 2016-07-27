@@ -42,7 +42,7 @@ function modInfo() {
 function saveInfo(tosave) {
 	info[tosave.className] = tosave.value;
 }
-
+// Function to expand/minimize prototypes
 // for use by newPrototype()
 // parameter is HTML dom element clicked on (the bar on the side of items)
 function onclickstring(parameter, action) {
@@ -77,23 +77,22 @@ function minimizePrototypes(action) {
 	}
 }
 function newPrototype(id) {
-	k = id;
 	var result = "";
-	temp = prototypes[k].constructor.keys(prototypes[k]);
-	var randomID = Math.round(Math.random() * 10000);
+	temp = prototypes[id].constructor.keys(prototypes[id]);
+	var newPrototypeID = prototypes.length;
+	// tried replacing stupid Math.random with something that won't fail, thats why you still see traces of stupidity
 	for (o = 0; o < temp.length;o++) {
-		temp = prototypes[k].constructor.keys(prototypes[k]);
-		if(typeof prototypes[k][temp[o]] == 'object') {
+		if(typeof prototypes[id][temp[o]] == 'object') {
 			console.log('Property of prototype is an object');
-			tempTwo = JSON.stringify(prototypes[k][temp[o]]);
+			tempTwo = JSON.stringify(prototypes[id][temp[o]]);
 		} else {
-			tempTwo = prototypes[k][temp[o]];
+			tempTwo = prototypes[id][temp[o]];
 		}
 		console.log(tempTwo);
-		if (!prototypes[randomID]) {
-			prototypes[randomID] = {};
+		if (!prototypes[newPrototypeID]) {
+			prototypes[newPrototypeID] = {};
 		}
-		prototypes[randomID][temp[o]] = tempTwo;
+		prototypes[newPrototypeID][temp[o]] = tempTwo;
 		result = result + "<div><div class='property input-control text'><input type='text' class='value input-control text' value='" + tempTwo + "'" +
 		" oninput='save(this);'" +
 		"></input></div><p class='index'>" + temp[o] + "</p></div>";
@@ -104,7 +103,7 @@ function newPrototype(id) {
 	// Create DOM element
 	temp = document.createElement('div');
 	// Add our string HTML to the in-memory DOM element
-	temp.innerHTML = "<div class='prototype' id='" + randomID + "'><div class='expander' onclick='onclickstring(this)'></div>" + result + "</div>";
+	temp.innerHTML = "<div class='prototype' id='" + newPrototypeID + "'><div class='expander' onclick='onclickstring(this)'></div>" + result + "</div>";
 	// Append the DOM element
 	document.getElementById('window').appendChild(temp);
 	// Reset temp variable
@@ -122,7 +121,7 @@ function load() {
 	// loop through all properties and draw to screen
 	// k should start checking at a higher number than the last ID of the presets
 	// to avoid involuntary creation of invalid prototypes
-	for(k = 5; k < prototypes.length;k++) {
+	for(k = presetPrototypeLength; k < prototypes.length;k++) {
 		// console.log(k)
 		if (prototypes[k]) {
 			// console.log(prototypes[k].constructor.keys(prototypes[k]))
@@ -215,8 +214,8 @@ function exportMod() {
 	xhttp.send(JSON.stringify(modExport));
 }
 
+// get us some default prototypes we can clone and edit
 var prototypes = [];
-
 prototypes[0] = {
 	name : "steel-processing",
 	type : "technology",
@@ -244,8 +243,18 @@ prototypes[2] = {
 	result : "express-transport-belt",
 	requester_paste_multiplier : 4
 }
+// Store how many preset prototypes we got at loadtime (we don't want to include these when saving/loading)
+var presetPrototypeLength = prototypes.length;
 
-
+// Place default prototypes into the GUI
+window.onload = function() {
+	for(j=0; j < prototypes.length;j++) {
+		if(!prototypes[j].type) {
+		} else if(document.getElementById(prototypes[j].type)) {
+			document.getElementById(prototypes[j].type).innerHTML = document.getElementById(prototypes[j].type).innerHTML + '<option>' + prototypes[j].name + '</option>';
+		}
+	}
+}
 var info = {
 	name: 'testMod',
 	version: '0.0.1',

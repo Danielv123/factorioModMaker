@@ -11,8 +11,14 @@
 	<div id="menu">
 		<button onclick="modInfo();">Mod info</button>
 		<button onclick="newPrototype('1');">item</button>
+		<select id='item'>
+		</select>
 		<button onclick="newPrototype('2');">recipe</button>
-		<button onclick="newPrototype('0');">research</button>
+		<select id='recipe'>
+		</select>
+		<button onclick="newPrototype('0');">technology</button>
+		<select id='technology'>
+		</select>
 		<!-- Save mod in localstorage -->
 		<button onclick="localStorage.mod = ''; localStorage.mod = JSON.stringify(prototypes); localStorage.info = ''; localStorage.info = JSON.stringify(info);">save</button>
 		<button onclick="load();minimizePrototypes('minimize');">load</button>
