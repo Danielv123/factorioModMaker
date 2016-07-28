@@ -10,13 +10,14 @@
 <body>
 	<div id="menu">
 		<button onclick="modInfo();">Mod info</button>
-		<button onclick="newPrototype('1');">item</button>
+		<!-- Extremely convoluted inline JS to get ID of the selected option element and call newPrototype with that -->
+		<button onclick="newPrototype(document.querySelector('#item').options[document.querySelector('#item').options.selectedIndex].id);">item</button>
 		<select id='item'>
 		</select>
-		<button onclick="newPrototype('2');">recipe</button>
+		<button onclick="newPrototype(document.querySelector('#recipe').options[document.querySelector('#recipe').options.selectedIndex].id);">recipe</button>
 		<select id='recipe'>
 		</select>
-		<button onclick="newPrototype('0');">technology</button>
+		<button onclick="newPrototype(document.querySelector('#technology').options[document.querySelector('#technology').options.selectedIndex].id);">technology</button>
 		<select id='technology'>
 		</select>
 		<!-- Save mod in localstorage -->

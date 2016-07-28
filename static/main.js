@@ -245,13 +245,12 @@ prototypes[2] = {
 }
 // Store how many preset prototypes we got at loadtime (we don't want to include these when saving/loading)
 var presetPrototypeLength = prototypes.length;
-
 // Place default prototypes into the GUI
 window.onload = function() {
 	for(j=0; j < prototypes.length;j++) {
 		if(!prototypes[j].type) {
 		} else if(document.getElementById(prototypes[j].type)) {
-			document.getElementById(prototypes[j].type).innerHTML = document.getElementById(prototypes[j].type).innerHTML + '<option>' + prototypes[j].name + '</option>';
+			document.getElementById(prototypes[j].type).innerHTML = document.getElementById(prototypes[j].type).innerHTML + '<option id="' + j + '">' + prototypes[j].name + '</option>';
 		}
 	}
 }
