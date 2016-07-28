@@ -14,12 +14,12 @@ if (window.XMLHttpRequest) {
 
 // function to check if string is stringified JSON
 function isJSON(str) {
-    try {
-        JSON.parse(str);
-    } catch (e) {
-        return false;
-    }
-    return true;
+	try {
+		JSON.parse(str);
+	} catch (e) {
+		return false;
+	}
+	return true;
 }
 
 function modInfo() {
