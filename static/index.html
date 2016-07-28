@@ -20,6 +20,9 @@
 		<button onclick="newPrototype(document.querySelector('#technology').options[document.querySelector('#technology').options.selectedIndex].id);">technology</button>
 		<select id='technology'>
 		</select>
+		<button onclick="newPrototype(document.querySelector('#other').options[document.querySelector('#other').options.selectedIndex].id);">other</button>
+		<select id='other'>
+		</select>
 		<!-- Save mod in localstorage -->
 		<button onclick="localStorage.mod = ''; localStorage.mod = JSON.stringify(prototypes); localStorage.info = ''; localStorage.info = JSON.stringify(info);">save</button>
 		<button onclick="load();minimizePrototypes('minimize');">load</button>
