@@ -44,7 +44,7 @@ app.post("/js2lua", function(req, res) {
 	// Attempt sending the file back to client
 	res.send(req.body.info.name + "_" + req.body.info.version + ".zip");
 });
-
+var serverPort = process.env.OPENSHIFT_NODEJS_PORT || 8080
 var server = app.listen(8080, function () {
 	console.log("Listening on port %s...", server.address().port);
 });
