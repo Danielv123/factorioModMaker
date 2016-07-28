@@ -10,9 +10,19 @@
 <body>
 	<div id="menu">
 		<button onclick="modInfo();">Mod info</button>
-		<button onclick="newPrototype('1');">item</button>
-		<button onclick="newPrototype('2');">recipe</button>
-		<button onclick="newPrototype('0');">research</button>
+		<!-- Extremely convoluted inline JS to get ID of the selected option element and call newPrototype with that -->
+		<button onclick="newPrototype(document.querySelector('#item').options[document.querySelector('#item').options.selectedIndex].id);">item</button>
+		<select id='item'>
+		</select>
+		<button onclick="newPrototype(document.querySelector('#recipe').options[document.querySelector('#recipe').options.selectedIndex].id);">recipe</button>
+		<select id='recipe'>
+		</select>
+		<button onclick="newPrototype(document.querySelector('#technology').options[document.querySelector('#technology').options.selectedIndex].id);">technology</button>
+		<select id='technology'>
+		</select>
+		<button onclick="newPrototype(document.querySelector('#other').options[document.querySelector('#other').options.selectedIndex].id);">other</button>
+		<select id='other'>
+		</select>
 		<!-- Save mod in localstorage -->
 		<button onclick="localStorage.mod = ''; localStorage.mod = JSON.stringify(prototypes); localStorage.info = ''; localStorage.info = JSON.stringify(info);">save</button>
 		<button onclick="load();minimizePrototypes('minimize');">load</button>

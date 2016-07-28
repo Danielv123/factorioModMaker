@@ -46,5 +46,5 @@ app.post("/js2lua", function(req, res) {
 });
 
 var server = app.listen(8080, function () {
-    console.log("Listening on port %s...", server.address().port);
+	console.log("Listening on port %s...", server.address().port);
 });

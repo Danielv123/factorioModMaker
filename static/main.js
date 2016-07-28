@@ -14,12 +14,12 @@ if (window.XMLHttpRequest) {
 
 // function to check if string is stringified JSON
 function isJSON(str) {
-    try {
-        JSON.parse(str);
-    } catch (e) {
-        return false;
-    }
-    return true;
+	try {
+		JSON.parse(str);
+	} catch (e) {
+		return false;
+	}
+	return true;
 }
 
 function modInfo() {
@@ -42,7 +42,7 @@ function modInfo() {
 function saveInfo(tosave) {
 	info[tosave.className] = tosave.value;
 }
-
+// Function to expand/minimize prototypes
 // for use by newPrototype()
 // parameter is HTML dom element clicked on (the bar on the side of items)
 function onclickstring(parameter, action) {
@@ -77,23 +77,22 @@ function minimizePrototypes(action) {
 	}
 }
 function newPrototype(id) {
-	k = id;
 	var result = "";
-	temp = prototypes[k].constructor.keys(prototypes[k]);
-	var randomID = Math.round(Math.random() * 10000);
+	temp = prototypes[id].constructor.keys(prototypes[id]);
+	var newPrototypeID = prototypes.length;
+	// tried replacing stupid Math.random with something that won't fail, thats why you still see traces of stupidity
 	for (o = 0; o < temp.length;o++) {
-		temp = prototypes[k].constructor.keys(prototypes[k]);
-		if(typeof prototypes[k][temp[o]] == 'object') {
+		if(typeof prototypes[id][temp[o]] == 'object') {
 			console.log('Property of prototype is an object');
-			tempTwo = JSON.stringify(prototypes[k][temp[o]]);
+			tempTwo = JSON.stringify(prototypes[id][temp[o]]);
 		} else {
-			tempTwo = prototypes[k][temp[o]];
+			tempTwo = prototypes[id][temp[o]];
 		}
 		console.log(tempTwo);
-		if (!prototypes[randomID]) {
-			prototypes[randomID] = {};
+		if (!prototypes[newPrototypeID]) {
+			prototypes[newPrototypeID] = {};
 		}
-		prototypes[randomID][temp[o]] = tempTwo;
+		prototypes[newPrototypeID][temp[o]] = tempTwo;
 		result = result + "<div><div class='property input-control text'><input type='text' class='value input-control text' value='" + tempTwo + "'" +
 		" oninput='save(this);'" +
 		"></input></div><p class='index'>" + temp[o] + "</p></div>";
@@ -104,7 +103,7 @@ function newPrototype(id) {
 	// Create DOM element
 	temp = document.createElement('div');
 	// Add our string HTML to the in-memory DOM element
-	temp.innerHTML = "<div class='prototype' id='" + randomID + "'><div class='expander' onclick='onclickstring(this)'></div>" + result + "</div>";
+	temp.innerHTML = "<div class='prototype' id='" + newPrototypeID + "'><div class='expander' onclick='onclickstring(this)'></div>" + result + "</div>";
 	// Append the DOM element
 	document.getElementById('window').appendChild(temp);
 	// Reset temp variable
@@ -122,7 +121,7 @@ function load() {
 	// loop through all properties and draw to screen
 	// k should start checking at a higher number than the last ID of the presets
 	// to avoid involuntary creation of invalid prototypes
-	for(k = 5; k < prototypes.length;k++) {
+	for(k = presetPrototypeLength; k < prototypes.length;k++) {
 		// console.log(k)
 		if (prototypes[k]) {
 			// console.log(prototypes[k].constructor.keys(prototypes[k]))
@@ -215,13 +214,17 @@ function exportMod() {
 	xhttp.send(JSON.stringify(modExport));
 }
 
+// get us some default prototypes we can clone and edit
 var prototypes = [];
-
 prototypes[0] = {
 	name : "steel-processing",
 	type : "technology",
 	icon : "__base__/graphics/technology/steel-processing.png",
-	effects : [{type : "unlock-recipe",recipe : "steel-plate"}],
+	effects : [
+		{type : "unlock-recipe",recipe : "steel-plate"},
+		{type : "unlock-recipe",recipe : "steel-chest"},
+		{type : "unlock-recipe",recipe : "steel-axe"},
+	],
 	unit : {count : 50,ingredients : ["science-pack-1", 1],time : 5},
 	order : "c-a"
 }
@@ -242,10 +245,124 @@ prototypes[2] = {
 	enabled : false,
 	ingredients : [["iron-gear-wheel", 5],["fast-transport-belt", 1],{type:"fluid", name:"lubricant", amount:2}],
 	result : "express-transport-belt",
-	requester_paste_multiplier : 4
+	requester_paste_multiplier : 4,
 }
-
-
+prototypes[3] = {
+	type : "item",
+	name : "steel-chest",
+	icon : "__base__/graphics/icons/steel-chest.png",
+	flags : ["goes-to-quickbar"],
+	subgroup : "storage",
+	order : "a[items]-c[steel-chest]",
+	place_result : "steel-chest",
+	stack_size : 50,
+}
+prototypes[4] = {
+	type : "item",
+	name : "diesel-locomotive",
+	icon : "__base__/graphics/icons/diesel-locomotive.png",
+	flags : ["goes-to-quickbar"],
+	subgroup : "transport",
+	order : "a[train-system]-f[diesel-locomotive]",
+	place_result : "diesel-locomotive",
+	stack_size : 5,
+}
+prototypes[5] = {
+	type : "tool",
+	name : "science-pack-1",
+	icon : "__base__/graphics/icons/science-pack-1.png",
+	flags : ["goes-to-main-inventory"],
+	subgroup : "science-pack",
+	order : "a[science-pack-1]",
+	stack_size : 200,
+	durability : 1,
+	durability_description_key : "description.science-pack-remaining-amount",
+}
+prototypes[6] = {
+	type : "blueprint",
+	name : "blueprint",
+	icon : "__base__/graphics/icons/blueprint.png",
+	flags : ["goes-to-quickbar"],
+	subgroup : "tool",
+	order : "c[automated-construction]-a[blueprint]",
+	stack_size : 1,
+	stackable : false,
+	draw_label_for_cursor_render : true,
+	item_to_clear : "electronic-circuit",
+	selection_color : { r : 0, g : 1, b : 0 },
+	alt_selection_color : { r : 0, g : 1, b : 0 },
+	selection_mode : ["blueprint"],
+	alt_selection_mode : ["blueprint"],
+	selection_cursor_box_type : "copy",
+	alt_selection_cursor_box_type : "copy",
+}
+prototypes[7] = {
+	type : "deconstruction-item",
+	name : "deconstruction-planner",
+	icon : "__base__/graphics/icons/deconstruction-planner.png",
+	flags : ["goes-to-quickbar"],
+	subgroup : "tool",
+	order : "c[automated-construction]-b[deconstruction-planner]",
+	stack_size : 1,
+	selection_color : { r : 1, g : 0, b : 0 },
+	alt_selection_color : { r : 0, g : 0, b : 1 },
+	selection_mode : ["deconstruct"],
+	alt_selection_mode : ["cancel-deconstruct"],
+	selection_cursor_box_type : "not-allowed",
+	alt_selection_cursor_box_type : "not-allowed",
+}
+prototypes[8] = {
+	type : "blueprint-book",
+	name : "blueprint-book",
+	icon : "__base__/graphics/icons/blueprint-book.png",
+	flags : ["goes-to-quickbar"],
+	subgroup : "tool",
+	order : "c[automated-construction]-c[blueprint-book]",
+	stack_size : 1,
+	inventory_size : 30
+}
+prototypes[9] = {
+	type : "technology",
+	name : "rocket-damage-3",
+	icon : "__base__/graphics/technology/rocket-damage.png",
+	effects :
+	[
+	  {
+		type : "ammo-damage",
+		ammo_category : "rocket",
+		modifier : "0.2"
+	  }
+	],
+	prerequisites : ["rocket-damage-2"],
+	unit :
+	{
+	  count : 100,
+	  ingredients :
+	  [
+		["alien-science-pack", 1],
+		["science-pack-1", 1],
+		["science-pack-2", 1],
+		["science-pack-3", 1]
+	  ],
+	  time : 60
+	},
+	upgrade : true,
+	order : "e-j-c",
+}
+// Store how many preset prototypes we got at loadtime (we don't want to include these when saving/loading)
+var presetPrototypeLength = prototypes.length;
+// Place default prototypes into the GUI
+window.onload = function() {
+	for(j=0; j < prototypes.length;j++) {
+		if(!prototypes[j].type) {
+			console.log('FATAL ERROR FALSish TYPE');
+		} else if(document.getElementById(prototypes[j].type)) {
+			document.getElementById(prototypes[j].type).innerHTML = document.getElementById(prototypes[j].type).innerHTML + '<option id="' + j + '">' + prototypes[j].name + '</option>';
+		} else if(!document.getElementById(prototypes[j].type)) {
+			document.getElementById('other').innerHTML = document.getElementById('other').innerHTML + '<option id="' + j + '">' + prototypes[j].name + '</option>';
+		}
+	}
+}
 var info = {
 	name: 'testMod',
 	version: '0.0.1',
