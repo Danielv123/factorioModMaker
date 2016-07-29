@@ -2,7 +2,8 @@
 document.addEventListener("DOMContentLoaded", function(event) {
 	//document.getElementById("modInfo").addEventListener("click", modInfo);
 });
-
+// Useful string tool
+if (typeof String.prototype.contains === 'undefined') { String.prototype.contains = function(it) { return this.indexOf(it) != -1; }; }
 // Browser compat for ajax requests
 var xhttp;
 if (window.XMLHttpRequest) {
