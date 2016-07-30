@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <head>
+	<script type="text/javascript" src="lint.js"></script>
 	<script type="text/javascript" src="main.js"></script>
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
 	<script type="text/javascript" src="metro.js"></script>
@@ -11,23 +12,23 @@
 	<div id="menu">
 		<button onclick="modInfo();">Mod info</button>
 		<!-- Extremely convoluted inline JS to get ID of the selected option element and call newPrototype with that -->
-		<button onclick="newPrototype(document.querySelector('#item').options[document.querySelector('#item').options.selectedIndex].id);">item</button>
+		<button onclick="newPrototype(document.querySelector('#item').options[document.querySelector('#item').options.selectedIndex].id);lint();">item</button>
 		<select id='item'>
 		</select>
-		<button onclick="newPrototype(document.querySelector('#recipe').options[document.querySelector('#recipe').options.selectedIndex].id);">recipe</button>
+		<button onclick="newPrototype(document.querySelector('#recipe').options[document.querySelector('#recipe').options.selectedIndex].id);lint();">recipe</button>
 		<select id='recipe'>
 		</select>
-		<button onclick="newPrototype(document.querySelector('#technology').options[document.querySelector('#technology').options.selectedIndex].id);">technology</button>
+		<button onclick="newPrototype(document.querySelector('#technology').options[document.querySelector('#technology').options.selectedIndex].id);lint();">technology</button>
 		<select id='technology'>
 		</select>
-		<button onclick="newPrototype(document.querySelector('#other').options[document.querySelector('#other').options.selectedIndex].id);">other</button>
+		<button onclick="newPrototype(document.querySelector('#other').options[document.querySelector('#other').options.selectedIndex].id);lint();">other</button>
 		<select id='other'>
 		</select>
 		<!-- Save mod in localstorage -->
-		<button onclick="localStorage.mod = ''; localStorage.mod = JSON.stringify(prototypes); localStorage.info = ''; localStorage.info = JSON.stringify(info);">save</button>
-		<button onclick="load();minimizePrototypes('minimize');">load</button>
+		<button onclick="localStorage.mod = ''; localStorage.mod = JSON.stringify(prototypes); localStorage.info = ''; localStorage.info = JSON.stringify(info);lint();">save</button>
+		<button onclick="load();minimizePrototypes('minimize');lint();">load</button>
 		<button onclick="exportMod();">export</button>
-		<button onclick="minimizePrototypes('minimize');">minimize all</button>
+		<button onclick="minimizePrototypes('minimize');lint();">minimize all</button>
 	</div>
 	<div id="window">
 
