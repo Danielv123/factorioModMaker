@@ -25,10 +25,10 @@ function syntaxCheck() {
 			console.log('ERROR: INVALID PROTOTYPE NAME: ' + prototypes[m].name);
 		}
 		if(prototypes[m].type == 'technology'){
-			if(!prototypes[m].unit.contains('}'){
+			if(!prototypes[m].unit.contains('}')){
 				console.log('ERROR: TECHNOLOGY.UNIT EXPECTS OBJECT');
 			}
-			if(!prototypes[m].effects.contains(']'){
+			if(!prototypes[m].effects.contains(']')){
 				console.log('ERROR: TECHNOLOGY.EFFECT EXPECTS ARRAY');
 			} else if (!prototypes[m].effects.contains('}')){
 				console.log('ERROR: TECHNOLOGY.EFFECT.array EXPECTS OBJECT');
