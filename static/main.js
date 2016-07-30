@@ -95,7 +95,7 @@ function newPrototype(id) {
 		}
 		prototypes[newPrototypeID][temp[o]] = tempTwo;
 		result = result + "<div><div class='property input-control text'><input type='text' class='value input-control text' value='" + tempTwo + "'" +
-		" oninput='save(this);'" +
+		" oninput='save(this); onchange='lint();'" +
 		"></input></div><p class='index'>" + temp[o] + "</p></div>";
 	}
 	// Add new HTML prototype
@@ -132,7 +132,7 @@ function load() {
 			for (o = 0; o < temp.length;o++) {
 				temp = prototypes[k].constructor.keys(prototypes[k]);
 				result = result + "<div><div class='property input-control text'><input type='text' class='value input-control text' value='" + prototypes[k][temp[o]] + "'" +
-				" oninput='save(this);'" +
+				" oninput='save(this);' onchange='lint();'" +
 				"></input></div><p class='index'>" + temp[o] + "</p></div>";
 			}
 
