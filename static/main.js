@@ -154,31 +154,19 @@ function load() {
 	}
 }
 // not related to the "save" button on the site
-// this function is ran on property input field.change
+// this function is ran on property input field.oninput
 function save(protoTwo) {
 	// protoTwo is a reference to HTML prototype
-	// index = string, name of JS object properto to change
-	// value = string or int, value to change
-	console.log(protoTwo)
-	proto = protoTwo.parentElement.parentElement.parentElement;
-	index = protoTwo.parentElement.parentElement.getElementsByClassName("index")[0].innerHTML;
-	value = protoTwo.value;
 	
-	console.log('Saving ' + index + ': ' + value + " - " + proto.id);
-	// Loop through prototypes checking for protos exclusive ID
-	var found = 0;
-	for(l = 0; l < prototypes.length; l++) {
-		if(prototypes[l]) { // only trigger if array position corresponds to a prototype
-			if(l == proto.id) { // loop until you are at the right prototype
-				console.log('I found my brother!');
-				found = l; // tell us when you finally found it
-				prototypes[l][index] = value;
-			} else { // if you hit a prototype and its the wrong one log that
-				console.log('no match');
-			}
-		}
+	// Log the HTML element that executes save()
+	// console.log(protoTwo)
+	proto = protoTwo.parentNode.parentNode.parentNode;
+	// console.log('Saving ' + index + ': ' + value + " - " + proto.id);
+	if(prototypes[proto.id]){
+		prototypes[proto.id][protoTwo.parentElement.parentElement.getElementsByClassName("index")[0].innerHTML] = protoTwo.value;
+	} else { // if you hit a prototype and its the wrong one log that
+		console.log('FATAL ERROR PLEASE REFRESH');
 	}
-	// console.log(proto.id);
 }
 // this is where the magic happens
 function exportMod() {
