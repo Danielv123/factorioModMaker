@@ -1,25 +1,29 @@
 // Function to color prototypes after their type property
-function lint() {
-	for (m = presetPrototypeLength; m < prototypes.length;m++) {
-		if(prototypes[m].type == 'technology'){
-			// [id=''] workaround required due to dumb me using numerical IDs
-			document.querySelector('[id="' + m + '"] > .expander').style.backgroundColor = 'yellow';
+function lint(m) {
+	if(m) {
+		setTimeout(syntaxCheck(m), 1000);
+	} else {
+		for (m = presetPrototypeLength; m < prototypes.length;m++) {
+			setTimeout(syntaxCheck(m),1000);
 		}
-		if(prototypes[m].type == 'item'){
-			document.querySelector('[id="' + m + '"] > .expander').style.backgroundColor = 'lightblue';
-		}
-		if(prototypes[m].type == 'recipe'){
-			document.querySelector('[id="' + m + '"] > .expander').style.backgroundColor = 'red';
-		}
-		if(prototypes[m].type == 'entity'){
-			document.querySelector('[id="' + m + '"] > .expander').style.backgroundColor = 'lightgreen';
-		}
-		syntaxCheck(m);
 	}
 }
 // check for syntax problems like invalid values, formatting etc
 function syntaxCheck(m) {
 	// m is ID of ptototype to check
+	if(prototypes[m].type == 'technology'){
+		// [id=''] workaround required due to dumb me using numerical IDs
+		document.querySelector('[id="' + m + '"] > .expander').style.backgroundColor = 'yellow';
+	}
+	if(prototypes[m].type == 'item'){
+		document.querySelector('[id="' + m + '"] > .expander').style.backgroundColor = 'lightblue';
+	}
+	if(prototypes[m].type == 'recipe'){
+		document.querySelector('[id="' + m + '"] > .expander').style.backgroundColor = 'red';
+	}
+	if(prototypes[m].type == 'entity'){
+		document.querySelector('[id="' + m + '"] > .expander').style.backgroundColor = 'lightgreen';
+	}
 	// Check if the technical name of prototype contains spaces
 	if(prototypes[m].name.contains(' ')){
 		console.log('ERROR: INVALID PROTOTYPE NAME: ' + prototypes[m].name);

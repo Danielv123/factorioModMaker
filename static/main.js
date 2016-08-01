@@ -164,6 +164,7 @@ function save(protoTwo) {
 	// console.log('Saving ' + index + ': ' + value + " - " + proto.id);
 	if(prototypes[proto.id]){
 		prototypes[proto.id][protoTwo.parentElement.parentElement.getElementsByClassName("index")[0].innerHTML] = protoTwo.value;
+		lint(proto.id);
 	} else { // if you hit a prototype and its the wrong one log that
 		console.log('FATAL ERROR PLEASE REFRESH');
 	}
@@ -237,8 +238,8 @@ prototypes[2] = {
 	requester_paste_multiplier : 4,
 }
 prototypes[3] = {
-	type : "item",
 	name : "steel-chest",
+	type : "item",
 	icon : "__base__/graphics/icons/steel-chest.png",
 	flags : ["goes-to-quickbar"],
 	subgroup : "storage",
@@ -247,8 +248,8 @@ prototypes[3] = {
 	stack_size : 50,
 }
 prototypes[4] = {
-	type : "item",
 	name : "diesel-locomotive",
+	type : "item",
 	icon : "__base__/graphics/icons/diesel-locomotive.png",
 	flags : ["goes-to-quickbar"],
 	subgroup : "transport",
@@ -257,8 +258,8 @@ prototypes[4] = {
 	stack_size : 5,
 }
 prototypes[5] = {
-	type : "tool",
 	name : "science-pack-1",
+	type : "tool",
 	icon : "__base__/graphics/icons/science-pack-1.png",
 	flags : ["goes-to-main-inventory"],
 	subgroup : "science-pack",
@@ -268,8 +269,8 @@ prototypes[5] = {
 	durability_description_key : "description.science-pack-remaining-amount",
 }
 prototypes[6] = {
-	type : "blueprint",
 	name : "blueprint",
+	type : "blueprint",
 	icon : "__base__/graphics/icons/blueprint.png",
 	flags : ["goes-to-quickbar"],
 	subgroup : "tool",
@@ -286,8 +287,8 @@ prototypes[6] = {
 	alt_selection_cursor_box_type : "copy",
 }
 prototypes[7] = {
-	type : "deconstruction-item",
 	name : "deconstruction-planner",
+	type : "deconstruction-item",
 	icon : "__base__/graphics/icons/deconstruction-planner.png",
 	flags : ["goes-to-quickbar"],
 	subgroup : "tool",
@@ -301,8 +302,8 @@ prototypes[7] = {
 	alt_selection_cursor_box_type : "not-allowed",
 }
 prototypes[8] = {
-	type : "blueprint-book",
 	name : "blueprint-book",
+	type : "blueprint-book",
 	icon : "__base__/graphics/icons/blueprint-book.png",
 	flags : ["goes-to-quickbar"],
 	subgroup : "tool",
@@ -311,8 +312,8 @@ prototypes[8] = {
 	inventory_size : 30
 }
 prototypes[9] = {
-	type : "technology",
 	name : "rocket-damage-3",
+	type : "technology",
 	icon : "__base__/graphics/technology/rocket-damage.png",
 	effects :
 	[

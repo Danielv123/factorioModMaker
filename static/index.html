@@ -10,24 +10,31 @@
 
 <body>
 	<div id="menu">
-		<button onclick="modInfo();">Mod info</button>
+		<span>FMM</span>
+		<div onclick="modInfo();"><p>Mod info</p></div>
+		<!-- Save mod in localstorage -->
+		<div onclick="exportMod();"><p>export</p></div>
+		<div onclick="load();minimizePrototypes('minimize');lint();"><p>load</p></div>
+		<div onclick="localStorage.mod = ''; localStorage.mod = JSON.stringify(prototypes); localStorage.info = ''; localStorage.info = JSON.stringify(info);lint();"><p>save</p></div>
+	</div>
+	<div id='tools'>
 		<!-- Extremely convoluted inline JS to get ID of the selected option element and call newPrototype with that -->
 		<button onclick="newPrototype(document.querySelector('#item').options[document.querySelector('#item').options.selectedIndex].id);lint();">item</button>
 		<select id='item'>
 		</select>
+		<br>
 		<button onclick="newPrototype(document.querySelector('#recipe').options[document.querySelector('#recipe').options.selectedIndex].id);lint();">recipe</button>
 		<select id='recipe'>
 		</select>
+		<br>
 		<button onclick="newPrototype(document.querySelector('#technology').options[document.querySelector('#technology').options.selectedIndex].id);lint();">technology</button>
 		<select id='technology'>
 		</select>
+		<br>
 		<button onclick="newPrototype(document.querySelector('#other').options[document.querySelector('#other').options.selectedIndex].id);lint();">other</button>
 		<select id='other'>
 		</select>
-		<!-- Save mod in localstorage -->
-		<button onclick="localStorage.mod = ''; localStorage.mod = JSON.stringify(prototypes); localStorage.info = ''; localStorage.info = JSON.stringify(info);lint();">save</button>
-		<button onclick="load();minimizePrototypes('minimize');lint();">load</button>
-		<button onclick="exportMod();">export</button>
+		<br>
 		<button onclick="minimizePrototypes('minimize');lint();">minimize all</button>
 	</div>
 	<div id="window">
