@@ -1,7 +1,6 @@
 * {
 	margin: 0px;
 }
-
 #popup {
 	background-color:#FAFAFA;
 }
@@ -13,12 +12,59 @@
 	border-top: 1px solid darkgrey;
 	background-color: white;
 }
-
+#menu {
+	background-color: powderblue;
+	border-bottom: 1px solid black;
+	height:40px;
+}
+#menu>span { /* logo */
+	font-size:xx-large;
+  color:darkmagenta;
+	cursor: default; /* make the text based logo feel like an image */
+}
+#menu>div {
+	background-color: yellow;
+	height:100%;
+	width:100px;
+	text-align: center;
+	font-size:18px;
+	transition:all 800ms;
+	cursor:pointer;
+}
+#menu>div:hover {
+	background-color: yellowgreen;
+}
+#menu>div>p {
+	margin-top:7px;
+	text-transform:uppercase;
+}
+#menu>button,
+#menu>div,
+#menu>select {
+	float:right;
+}
+#tools {
+	position:fixed;
+	right:0px;
+	height:100%;
+	width:300px;
+	background-color: powderblue;
+}
+#tools>select {
+	position:absolute;
+	right:0px;
+	width:200px;
+}
+#tools>button {
+	width:100px;
+}
 #window {
 	padding-bottom: 0px;
 	margin-left:20px;
 }
-
+#window * {
+	transition:all 250ms;
+}
 #popup {
 	position:fixed;
 	top:50px;
@@ -27,17 +73,14 @@
 	bottom:50px;
 	border: 1px solid darkgrey;
 }
-
 .prototype {
 	border-top: 2px solid black;
 	overflow:hidden;
-	/*transition:height 200ms;*/
 }
-
 .index {
 	display:inline;
+	margin-left:10px;
 }
-
 .expander {
 	width:15px;
 	height:100%;
@@ -45,9 +88,7 @@
 	position:absolute;
 	left:0px;
 	cursor: pointer;
-	/*transition:height 200ms;*/
 }
-
 .input-control {
 	display: inline-block;
 	min-height: 1rem;
@@ -57,7 +98,6 @@
 	margin: 0px 0;
 	line-height: 1;
 }
-
 .input-control.text,
 .input-control.select,
 .input-control.file,
@@ -67,7 +107,6 @@
 .input-control.tel {
   width: 20rem;
 }
-
 .input-control.text .prepend-icon,
 .input-control.select .prepend-icon,
 .input-control.file .prepend-icon,
@@ -83,6 +122,6 @@
   top: 50%;
   margin-top: -12px;
   left: 4px;
-  z-index: 2;
-  color: #999999;
+	z-index: 2;
+	color: #999999;
 }

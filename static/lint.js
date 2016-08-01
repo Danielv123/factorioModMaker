@@ -1,31 +1,29 @@
 // Function to color prototypes after their type property
 function lint(m) {
 	if(m) {
-		syntaxCheck(m);
+		setTimeout(syntaxCheck(m), 1000);
 	} else {
 		for (m = presetPrototypeLength; m < prototypes.length;m++) {
-			// Using a setTimeout to prevent linting from blocking the main thread
-			setTimeout(syntaxCheck(m), 1000);
+			setTimeout(syntaxCheck(m),1000);
 		}
 	}
 }
 // check for syntax problems like invalid values, formatting etc
 function syntaxCheck(m) {
 	// m is ID of ptototype to check
-	
 	if(prototypes[m].type == 'technology'){
-			// [id=''] workaround required due to dumb me using numerical IDs
-			document.querySelector('[id="' + m + '"] > .expander').style.backgroundColor = 'yellow';
-		}
-		if(prototypes[m].type == 'item'){
-			document.querySelector('[id="' + m + '"] > .expander').style.backgroundColor = 'lightblue';
-		}
-		if(prototypes[m].type == 'recipe'){
-			document.querySelector('[id="' + m + '"] > .expander').style.backgroundColor = 'red';
-		}
-		if(prototypes[m].type == 'entity'){
-			document.querySelector('[id="' + m + '"] > .expander').style.backgroundColor = 'lightgreen';
-		}
+		// [id=''] workaround required due to dumb me using numerical IDs
+		document.querySelector('[id="' + m + '"] > .expander').style.backgroundColor = 'yellow';
+	}
+	if(prototypes[m].type == 'item'){
+		document.querySelector('[id="' + m + '"] > .expander').style.backgroundColor = 'lightblue';
+	}
+	if(prototypes[m].type == 'recipe'){
+		document.querySelector('[id="' + m + '"] > .expander').style.backgroundColor = 'red';
+	}
+	if(prototypes[m].type == 'entity'){
+		document.querySelector('[id="' + m + '"] > .expander').style.backgroundColor = 'lightgreen';
+	}
 	// Check if the technical name of prototype contains spaces
 	if(prototypes[m].name.contains(' ')){
 		console.log('ERROR: INVALID PROTOTYPE NAME: ' + prototypes[m].name);
@@ -66,10 +64,10 @@ function syntaxCheck(m) {
 		}
 	}
 	if(!checktype(prototypes[m].type)) {
-		console.log('ERROR: INVALID PROTOTYPE (' + prototypes[m].name + ') TYPE: ' + prototypes[m].type)
+		console.log('ERROR: INVALID TYPE:' + prototypes[m].type)
 		$.Notify({
 			caption: 'ERROR',
-			content: 'INVALID PROTOTYPE (' + prototypes[m].name + ') TYPE: ' + prototypes[m].type,
+			content: 'INVALID PROTOTYPE TYPE: ' + prototypes[m].type,
 			type: 'alert',
 			timeout: 10000
 		});
