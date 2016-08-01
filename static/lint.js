@@ -1,7 +1,19 @@
 // Function to color prototypes after their type property
-function lint() {
-	for (m = presetPrototypeLength; m < prototypes.length;m++) {
-		if(prototypes[m].type == 'technology'){
+function lint(m) {
+	if(m) {
+		syntaxCheck(m);
+	} else {
+		for (m = presetPrototypeLength; m < prototypes.length;m++) {
+			// Using a setTimeout to prevent linting from blocking the main thread
+			setTimeout(syntaxCheck(m), 1000);
+		}
+	}
+}
+// check for syntax problems like invalid values, formatting etc
+function syntaxCheck(m) {
+	// m is ID of ptototype to check
+	
+	if(prototypes[m].type == 'technology'){
 			// [id=''] workaround required due to dumb me using numerical IDs
 			document.querySelector('[id="' + m + '"] > .expander').style.backgroundColor = 'yellow';
 		}
@@ -14,13 +26,6 @@ function lint() {
 		if(prototypes[m].type == 'entity'){
 			document.querySelector('[id="' + m + '"] > .expander').style.backgroundColor = 'lightgreen';
 		}
-		// Using a setTimeout to prevent linting from blocking the main thread
-		setTimeout(syntaxCheck(m), 1000);
-	}
-}
-// check for syntax problems like invalid values, formatting etc
-function syntaxCheck(m) {
-	// m is ID of ptototype to check
 	// Check if the technical name of prototype contains spaces
 	if(prototypes[m].name.contains(' ')){
 		console.log('ERROR: INVALID PROTOTYPE NAME: ' + prototypes[m].name);
