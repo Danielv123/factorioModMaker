@@ -4,6 +4,7 @@ ehthumbs.db
 
 # Folder config file
 Desktop.ini
+*.log
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
@@ -47,3 +48,4 @@ Temporary Items
 node_modules
 .apdisk
 static/*.zip
+bower_components
