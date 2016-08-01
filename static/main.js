@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded", function(event) {
 	//document.getElementById("modInfo").addEventListener("click", modInfo);
 });
-// Useful string tool
+// String.contains();
 if (typeof String.prototype.contains === 'undefined') { String.prototype.contains = function(it) { return this.indexOf(it) != -1; }; }
 // Browser compat for ajax requests
 var xhttp;
@@ -22,7 +22,10 @@ function isJSON(str) {
 	}
 	return true;
 }
-
+// used by modinfo only
+function saveInfo(tosave) {
+	info[tosave.className] = tosave.value;
+}
 function modInfo() {
 	// Create popup window that allows for changing info.json
 	temp = document.getElementById('popup');
@@ -38,10 +41,6 @@ function modInfo() {
 	} else {
 		temp.style.display = 'none';
 	}
-}
-// used by modinfo only
-function saveInfo(tosave) {
-	info[tosave.className] = tosave.value;
 }
 // Function to expand/minimize prototypes
 // for use by newPrototype()
@@ -122,9 +121,7 @@ function load() {
 	// k should start checking at a higher number than the last ID of the presets
 	// to avoid involuntary creation of invalid prototypes
 	for(k = presetPrototypeLength; k < prototypes.length;k++) {
-		// console.log(k)
 		if (prototypes[k]) {
-			// console.log(prototypes[k].constructor.keys(prototypes[k]))
 			console.log("loaded: " + k)
 			var result = "";
 			temp = prototypes[k].constructor.keys(prototypes[k]);
