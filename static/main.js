@@ -158,6 +158,7 @@ function save(protoTwo) {
 	// console.log('Saving ' + index + ': ' + value + " - " + proto.id);
 	if(prototypes[proto.id]){
 		prototypes[proto.id][protoTwo.parentElement.parentElement.getElementsByClassName("index")[0].innerHTML] = protoTwo.value;
+		lint();
 	} else { // if you hit a prototype and its the wrong one log that
 		console.error('FATAL ERROR: prototypes are out of sync');
 	}

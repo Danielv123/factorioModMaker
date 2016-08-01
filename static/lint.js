@@ -14,7 +14,8 @@ function lint() {
 		if(prototypes[m].type == 'entity'){
 			document.querySelector('[id="' + m + '"] > .expander').style.backgroundColor = 'lightgreen';
 		}
-		syntaxCheck(m);
+		// Using a setTimeout to prevent linting from blocking the main thread
+		setTimeout(syntaxCheck(m), 1000);
 	}
 }
 // check for syntax problems like invalid values, formatting etc
