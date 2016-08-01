@@ -26,7 +26,7 @@
 		</select>
 		<!-- Save mod in localstorage -->
 		<button onclick="localStorage.mod = ''; localStorage.mod = JSON.stringify(prototypes); localStorage.info = ''; localStorage.info = JSON.stringify(info);lint();">save</button>
-		<button onclick="load();minimizePrototypes('minimize');lint();">load</button>
+		<button onclick="document.querySelector('#window').innerHTML = '';load();minimizePrototypes('minimize');lint();">load</button>
 		<button onclick="exportMod();">export</button>
 		<button onclick="minimizePrototypes('minimize');lint();">minimize all</button>
 	</div>

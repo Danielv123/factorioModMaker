@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded", function(event) {
 	//document.getElementById("modInfo").addEventListener("click", modInfo);
 });
-// String.contains();
+// Useful string tool
 if (typeof String.prototype.contains === 'undefined') { String.prototype.contains = function(it) { return this.indexOf(it) != -1; }; }
 // Browser compat for ajax requests
 var xhttp;
@@ -22,10 +22,7 @@ function isJSON(str) {
 	}
 	return true;
 }
-// used by modinfo only
-function saveInfo(tosave) {
-	info[tosave.className] = tosave.value;
-}
+
 function modInfo() {
 	// Create popup window that allows for changing info.json
 	temp = document.getElementById('popup');
@@ -41,6 +38,10 @@ function modInfo() {
 	} else {
 		temp.style.display = 'none';
 	}
+}
+// used by modinfo only
+function saveInfo(tosave) {
+	info[tosave.className] = tosave.value;
 }
 // Function to expand/minimize prototypes
 // for use by newPrototype()
@@ -117,11 +118,14 @@ function load() {
 	prototypes = JSON.parse(localStorage.mod);
 	info = {};
 	info = JSON.parse(localStorage.info);
+	
 	// loop through all properties and draw to screen
 	// k should start checking at a higher number than the last ID of the presets
 	// to avoid involuntary creation of invalid prototypes
 	for(k = presetPrototypeLength; k < prototypes.length;k++) {
+		// console.log(k)
 		if (prototypes[k]) {
+			// console.log(prototypes[k].constructor.keys(prototypes[k]))
 			console.log("loaded: " + k)
 			var result = "";
 			temp = prototypes[k].constructor.keys(prototypes[k]);
@@ -131,6 +135,7 @@ function load() {
 				" oninput='save(this);' onchange='lint();'" +
 				"></input></div><p class='index'>" + temp[o] + "</p></div>";
 			}
+
 			// Add new HTML prototype
 			// Using standard DOM methods instead of the hacky innerHTML = innerHTML + string
 			// to avoid resetting the input fields when new prototypes are added.
@@ -138,6 +143,7 @@ function load() {
 			// Create DOM element
 			temp = document.createElement('div');
 			// Add our string HTML to the in-memory DOM element
+			
 			temp.innerHTML = "<div class='prototype' id='" + k + "'><div class='expander' onclick='onclickstring(this)'></div>" + result + "</div>";
 			// console.log(temp); // logging doesen't releal much
 			// Append the DOM element
@@ -151,13 +157,15 @@ function load() {
 // this function is ran on property input field.oninput
 function save(protoTwo) {
 	// protoTwo is a reference to HTML prototype
+	
+	// Log the HTML element that executes save()
+	// console.log(protoTwo)
 	proto = protoTwo.parentNode.parentNode.parentNode;
 	// console.log('Saving ' + index + ': ' + value + " - " + proto.id);
 	if(prototypes[proto.id]){
 		prototypes[proto.id][protoTwo.parentElement.parentElement.getElementsByClassName("index")[0].innerHTML] = protoTwo.value;
-		lint(proto.id); // Light linting, only check this element
 	} else { // if you hit a prototype and its the wrong one log that
-		console.error('FATAL ERROR: prototypes are out of sync');
+		console.log('FATAL ERROR PLEASE REFRESH');
 	}
 }
 // this is where the magic happens
@@ -194,6 +202,7 @@ function exportMod() {
 	};
 	xhttp.send(JSON.stringify(modExport));
 }
+
 // get us some default prototypes we can clone and edit
 var prototypes = [];
 prototypes[0] = {
@@ -228,8 +237,8 @@ prototypes[2] = {
 	requester_paste_multiplier : 4,
 }
 prototypes[3] = {
-	name : "steel-chest",
 	type : "item",
+	name : "steel-chest",
 	icon : "__base__/graphics/icons/steel-chest.png",
 	flags : ["goes-to-quickbar"],
 	subgroup : "storage",
@@ -238,8 +247,8 @@ prototypes[3] = {
 	stack_size : 50,
 }
 prototypes[4] = {
-	name : "diesel-locomotive",
 	type : "item",
+	name : "diesel-locomotive",
 	icon : "__base__/graphics/icons/diesel-locomotive.png",
 	flags : ["goes-to-quickbar"],
 	subgroup : "transport",
@@ -248,8 +257,8 @@ prototypes[4] = {
 	stack_size : 5,
 }
 prototypes[5] = {
-	name : "science-pack-1",
 	type : "tool",
+	name : "science-pack-1",
 	icon : "__base__/graphics/icons/science-pack-1.png",
 	flags : ["goes-to-main-inventory"],
 	subgroup : "science-pack",
@@ -259,8 +268,8 @@ prototypes[5] = {
 	durability_description_key : "description.science-pack-remaining-amount",
 }
 prototypes[6] = {
-	name : "blueprint",
 	type : "blueprint",
+	name : "blueprint",
 	icon : "__base__/graphics/icons/blueprint.png",
 	flags : ["goes-to-quickbar"],
 	subgroup : "tool",
@@ -277,8 +286,8 @@ prototypes[6] = {
 	alt_selection_cursor_box_type : "copy",
 }
 prototypes[7] = {
-	name : "deconstruction-planner",
 	type : "deconstruction-item",
+	name : "deconstruction-planner",
 	icon : "__base__/graphics/icons/deconstruction-planner.png",
 	flags : ["goes-to-quickbar"],
 	subgroup : "tool",
@@ -292,8 +301,8 @@ prototypes[7] = {
 	alt_selection_cursor_box_type : "not-allowed",
 }
 prototypes[8] = {
-	name : "blueprint-book",
 	type : "blueprint-book",
+	name : "blueprint-book",
 	icon : "__base__/graphics/icons/blueprint-book.png",
 	flags : ["goes-to-quickbar"],
 	subgroup : "tool",
@@ -302,8 +311,8 @@ prototypes[8] = {
 	inventory_size : 30
 }
 prototypes[9] = {
-	name : "rocket-damage-3",
 	type : "technology",
+	name : "rocket-damage-3",
 	icon : "__base__/graphics/technology/rocket-damage.png",
 	effects :
 	[
@@ -335,7 +344,7 @@ var presetPrototypeLength = prototypes.length;
 window.onload = function() {
 	for(j=0; j < prototypes.length;j++) {
 		if(!prototypes[j].type) {
-			console.error('FATAL ERROR FALSish TYPE');
+			console.log('FATAL ERROR FALSish TYPE');
 		} else if(document.getElementById(prototypes[j].type)) {
 			document.getElementById(prototypes[j].type).innerHTML = document.getElementById(prototypes[j].type).innerHTML + '<option id="' + j + '">' + prototypes[j].name + '</option>';
 		} else if(!document.getElementById(prototypes[j].type)) {
