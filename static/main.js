@@ -118,7 +118,6 @@ function load() {
 	prototypes = JSON.parse(localStorage.mod);
 	info = {};
 	info = JSON.parse(localStorage.info);
-	
 	// loop through all properties and draw to screen
 	// k should start checking at a higher number than the last ID of the presets
 	// to avoid involuntary creation of invalid prototypes
@@ -135,7 +134,6 @@ function load() {
 				" oninput='save(this);' onchange='lint();'" +
 				"></input></div><p class='index'>" + temp[o] + "</p></div>";
 			}
-
 			// Add new HTML prototype
 			// Using standard DOM methods instead of the hacky innerHTML = innerHTML + string
 			// to avoid resetting the input fields when new prototypes are added.
@@ -143,7 +141,6 @@ function load() {
 			// Create DOM element
 			temp = document.createElement('div');
 			// Add our string HTML to the in-memory DOM element
-			
 			temp.innerHTML = "<div class='prototype' id='" + k + "'><div class='expander' onclick='onclickstring(this)'></div>" + result + "</div>";
 			// console.log(temp); // logging doesen't releal much
 			// Append the DOM element
@@ -157,15 +154,12 @@ function load() {
 // this function is ran on property input field.oninput
 function save(protoTwo) {
 	// protoTwo is a reference to HTML prototype
-	
-	// Log the HTML element that executes save()
-	// console.log(protoTwo)
 	proto = protoTwo.parentNode.parentNode.parentNode;
 	// console.log('Saving ' + index + ': ' + value + " - " + proto.id);
 	if(prototypes[proto.id]){
 		prototypes[proto.id][protoTwo.parentElement.parentElement.getElementsByClassName("index")[0].innerHTML] = protoTwo.value;
 	} else { // if you hit a prototype and its the wrong one log that
-		console.log('FATAL ERROR PLEASE REFRESH');
+		console.error('FATAL ERROR: prototypes are out of sync');
 	}
 }
 // this is where the magic happens
@@ -202,7 +196,6 @@ function exportMod() {
 	};
 	xhttp.send(JSON.stringify(modExport));
 }
-
 // get us some default prototypes we can clone and edit
 var prototypes = [];
 prototypes[0] = {
@@ -344,7 +337,7 @@ var presetPrototypeLength = prototypes.length;
 window.onload = function() {
 	for(j=0; j < prototypes.length;j++) {
 		if(!prototypes[j].type) {
-			console.log('FATAL ERROR FALSish TYPE');
+			console.error('FATAL ERROR FALSish TYPE');
 		} else if(document.getElementById(prototypes[j].type)) {
 			document.getElementById(prototypes[j].type).innerHTML = document.getElementById(prototypes[j].type).innerHTML + '<option id="' + j + '">' + prototypes[j].name + '</option>';
 		} else if(!document.getElementById(prototypes[j].type)) {

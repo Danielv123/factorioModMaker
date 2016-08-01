@@ -60,10 +60,10 @@ function syntaxCheck(m) {
 		}
 	}
 	if(!checktype(prototypes[m].type)) {
-		console.log('ERROR: INVALID TYPE:' + prototypes[m].type)
+		console.log('ERROR: INVALID PROTOTYPE (' + prototypes[m].name + ') TYPE: ' + prototypes[m].type)
 		$.Notify({
 			caption: 'ERROR',
-			content: 'INVALID PROTOTYPE TYPE: ' + prototypes[m].type,
+			content: 'INVALID PROTOTYPE (' + prototypes[m].name + ') TYPE: ' + prototypes[m].type,
 			type: 'alert',
 			timeout: 10000
 		});
