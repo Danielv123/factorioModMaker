@@ -17,7 +17,12 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Set folder to serve static content from (the webiste)
 app.use(express.static('static'));
+// Set convenient paths to 3rd party libs like metroUI and jquery from their bower installs
+// Use this to make it nice an easy to change without touching the HTML in production
+app.use(express.static('bower_components/metro-dist'));
+app.use(express.static('bower_components/jquery/dist'));
 
 app.post("/js2lua", function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
