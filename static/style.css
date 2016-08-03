@@ -19,7 +19,7 @@
 }
 #menu>span { /* logo */
 	font-size:xx-large;
-  color:darkmagenta;
+	color:darkmagenta;
 	cursor: default; /* make the text based logo feel like an image */
 }
 #menu>div {
@@ -105,7 +105,7 @@
 .input-control.number,
 .input-control.email,
 .input-control.tel {
-  width: 20rem;
+	width: 20rem;
 }
 .input-control.text .prepend-icon,
 .input-control.select .prepend-icon,
@@ -114,14 +114,14 @@
 .input-control.number .prepend-icon,
 .input-control.email .prepend-icon,
 .input-control.tel .prepend-icon {
-  width: 16px;
-  height: 16px;
-  font-size: 24px;
-  line-height: 1;
-  position: absolute;
-  top: 50%;
-  margin-top: -12px;
-  left: 4px;
+	width: 16px;
+	height: 16px;
+	font-size: 24px;
+	line-height: 1;
+	position: absolute;
+	top: 50%;
+	margin-top: -12px;
+	left: 4px;
 	z-index: 2;
 	color: #999999;
 }
