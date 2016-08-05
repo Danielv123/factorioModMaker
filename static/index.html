@@ -12,9 +12,9 @@
 	<div id="menu">
 		<span>FMM</span>
 		<div onclick="modInfo();"><p>Mod info</p></div>
-		<!-- Save mod in localstorage -->
+		<!-- Save/load mod in localstorage -->
 		<div onclick="exportMod();"><p>export</p></div>
-		<div onclick="load();minimizePrototypes('minimize');lint();"><p>load</p></div>
+		<div onclick="document.getElementById('window').innerHTML = '';load();minimizePrototypes('minimize');lint();"><p>load</p></div>
 		<div onclick="localStorage.mod = ''; localStorage.mod = JSON.stringify(prototypes); localStorage.info = ''; localStorage.info = JSON.stringify(info);lint();"><p>save</p></div>
 	</div>
 	<div id='tools'>
