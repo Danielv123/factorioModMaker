@@ -49,6 +49,7 @@
 	height:100%;
 	width:300px;
 	background-color: powderblue;
+	z-index: 100;
 }
 #tools>select {
 	position:absolute;
@@ -60,7 +61,6 @@
 }
 #window {
 	padding-bottom: 0px;
-	margin-left:20px;
 }
 #window * {
 	transition:all 250ms;
@@ -76,10 +76,22 @@
 .prototype {
 	border-top: 2px solid black;
 	overflow:hidden;
+	background-color:lightgray;
+	position:relative;
+}
+.prototype input {
+  padding-left: 15px;
+}
+.prototype .prototype>.expander {
+	margin-left:15px;
+	background-color: red;
+}
+.prototype .prototype input {
+	padding-left:30px;
 }
 .index {
 	display:inline;
-	margin-left:10px;
+	margin-left:15px;
 }
 .expander {
 	width:15px;
@@ -87,6 +99,7 @@
 	background-color: black;
 	position:absolute;
 	left:0px;
+	z-index:100;
 	cursor: pointer;
 }
 .input-control {
