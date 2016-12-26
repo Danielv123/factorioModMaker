@@ -34,6 +34,35 @@ function syntaxCheck(m) {
 			timeout: 10000
 		});
 	}
+	// Check if tech prototypes include what they should
+	if(prototypes[m].type == 'technology'){
+		if(!prototypes[m].unit.contains('}')){
+			console.log('ERROR: TECHNOLOGY.UNIT EXPECTS OBJECT');
+			$.Notify({
+				caption: 'ERROR',
+				content: 'TECHNOLOGY.UNIT EXPECTS object',
+				type: 'alert',
+				timeout: 10000
+			});
+		}
+		if(!prototypes[m].effects.contains(']')){
+			console.log('ERROR: TECHNOLOGY.EFFECT EXPECTS ARRAY');
+			$.Notify({
+				caption: 'ERROR',
+				content: 'TECHNOLOGY.EFFECT EXPECTS array',
+				type: 'alert',
+				timeout: 10000
+			});
+		} else if (!prototypes[m].effects.contains('}')){
+			console.log('ERROR: TECHNOLOGY.EFFECT.array EXPECTS OBJECT');
+			$.Notify({
+				caption: 'ERROR',
+				content: 'TECHNOLOGY.EFFECT.array EXPECTS object',
+				type: 'alert',
+				timeout: 10000
+			});
+		}
+	}
 	if(!checktype(prototypes[m].type)) {
 		console.log('ERROR: INVALID TYPE:' + prototypes[m].type)
 		$.Notify({

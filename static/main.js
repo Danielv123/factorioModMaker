@@ -50,19 +50,19 @@ function onclickstring(parameter, action) {
 	// console.log(parameter);
 	minProtoHeight = 34;
 	if (!action){ // if not specified, default to toggle
-		if(parameter.parentElement.style.height == minProtoHeight + "px"){ // maximize
-			parameter.parentElement.style = '';
-			parameter.style.height = "100%";
-		} else { // minimize
+		if(parameter.parentElement.style.height == minProtoHeight + "px"){
+			parameter.parentElement.style.height = (29 * parameter.parentElement.getElementsByTagName('div').length -29)/2 + "px";
+			parameter.style.height = ((29 * parameter.parentElement.getElementsByTagName('div').length -29)/2)-2 + "px";
+		} else {
 			parameter.parentElement.style.height = minProtoHeight + "px";
-			parameter.style.height = "100%";
+			parameter.style.height = minProtoHeight - 2 + "px";
 		}
 	} else if(action == 'minimize') { // Minimize only if asked to do so
 		parameter.parentElement.style.height = minProtoHeight + "px";
-		parameter.style.height = "100%";
+		parameter.style.height = minProtoHeight - 2 + "px";
 	} else if(action == 'maximize') { // Maximize if asked to do so
-		parameter.parentElement.style = '';
-		parameter.style.height = "100%";
+		parameter.parentElement.style.height = (29 * parameter.parentElement.getElementsByTagName('div').length -29)/2 + "px";
+		parameter.style.height = ((29 * parameter.parentElement.getElementsByTagName('div').length -29)/2)-2 + "px";
 	}
 }
 function minimizePrototypes(action) {
@@ -77,54 +77,26 @@ function minimizePrototypes(action) {
 		}
 	}
 }
-// Clone a prototype
 function newPrototype(id) {
 	var result = "";
 	temp = prototypes[id].constructor.keys(prototypes[id]);
 	var newPrototypeID = prototypes.length;
 	// tried replacing stupid Math.random with something that won't fail, thats why you still see traces of stupidity
-	// Loop through all properties
 	for (o = 0; o < temp.length;o++) {
-		// Make sure our new prototype entry exists in the prototypes array
+		if(typeof prototypes[id][temp[o]] == 'object') {
+			console.log('Property of prototype is an object');
+			tempTwo = JSON.stringify(prototypes[id][temp[o]]);
+		} else {
+			tempTwo = prototypes[id][temp[o]];
+		}
+		console.log(tempTwo);
 		if (!prototypes[newPrototypeID]) {
 			prototypes[newPrototypeID] = {};
 		}
-		// Copy our property before all the stringy stuff because we want
-		// to keep it pure in case it is an object
-		prototypes[newPrototypeID][temp[o]] = prototypes[id][temp[o]];
-		// Determine if we need to do something to the value before printing
-		if(typeof prototypes[id][temp[o]] == 'object') {
-			// Property of prototype is an object, so we print a string instead
-			// Lets make that string a whole lot of HTML, shall we?
-			if(prototypes[id][temp[o]].constructor.keys(prototypes[id][temp[o]])) {
-				// prototypes[id][temp[o]] means this prototype, property O (the one we are at in the loop)
-				var keys = prototypes[id][temp[o]].constructor.keys(prototypes[id][temp[o]]);
-				console.log(keys);
-				tempTwo = "<div class='prototype' id=''><div class='expander' onclick='onclickstring(this)'></div>";
-				for(b = 0; b < keys.length;b++) {
-					console.log(prototypes[id][temp[o]][keys[b]]);
-					if(!typeof prototypes[id][temp[o]][keys[b]] == 'string') {
-						tempThree = JSON.stringify(prototypes[id][temp[o]][keys[b]]);
-					} else {
-						tempThree = prototypes[id][temp[o]][keys[b]]
-					}
-					tempTwo = tempTwo + "<div><div class='property input-control text'><input type='text' class='value " +
-						"input-control text' value='" + tempThree + "' oninput='save(this); onchange='lint();'" +
-						"></input></div><p class='index'>" + keys[b] + "</p></div>"
-				}
-				tempTwo = tempTwo + '</div>';
-			} else {
-				tempTwo = JSON.stringify(prototypes[id][temp[o]]);
-			}
-		} else if(typeof prototypes[id][temp[o]] == 'string') {
-			// Its a string, just print it
-			tempTwo = "<div class='property input-control text'><input type='text' class='value input-control text' value='" + prototypes[id][temp[o]] + "'" +
-			" oninput='save(this); onchange='lint();'></input></div>";
-		} else {
-			console.error('FATAL ERROR PLEASE REFRESH');
-		}
-		// console.log(tempTwo);
-		result = result + "<div>" + tempTwo + "<p class='index'>" + temp[o] + "</p></div>";
+		prototypes[newPrototypeID][temp[o]] = tempTwo;
+		result = result + "<div><div class='property input-control text'><input type='text' class='value input-control text' value='" + tempTwo + "'" +
+		" oninput='save(this); onchange='lint();'" +
+		"></input></div><p class='index'>" + temp[o] + "</p></div>";
 	}
 	// Add new HTML prototype
 	// Using standard DOM methods instead of the hacky innerHTML = innerHTML + string
@@ -238,11 +210,11 @@ prototypes[0] = {
 	name : "steel-processing",
 	type : "technology",
 	icon : "__base__/graphics/technology/steel-processing.png",
-	/*effects : [
+	effects : [
 		{type : "unlock-recipe",recipe : "steel-plate"},
 		{type : "unlock-recipe",recipe : "steel-chest"},
 		{type : "unlock-recipe",recipe : "steel-axe"},
-	],*/
+	],
 	unit : {count : 50,ingredients : ["science-pack-1", 1],time : 5},
 	order : "c-a"
 }
