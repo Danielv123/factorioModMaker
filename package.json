@@ -13,7 +13,7 @@
     "jszip": "^3.0.0",
     "metro-dist": "^3.0.15",
     "mkdirp": "^0.5.1",
-    "restify": "^4.1.1"
+    "restify": "^10.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.9.2"
