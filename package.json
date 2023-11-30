@@ -7,13 +7,13 @@
     "body-parser": "^1.15.2",
     "easy-zip": "0.0.4",
     "express": "^4.14.0",
-    "forever": "^0.15.2",
+    "forever": "^3.0.4",
     "fs": "0.0.2",
     "js2lua": "^0.1.5",
     "jszip": "^3.0.0",
     "metro-dist": "^3.0.15",
     "mkdirp": "^0.5.1",
-    "restify": "^4.1.1"
+    "restify": "^9.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.9.2"
